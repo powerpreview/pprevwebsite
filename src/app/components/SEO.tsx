@@ -13,7 +13,7 @@ const defaultMeta = {
   title: 'PowerPreview - Instant OpenGraph Link Preview API',
   description: 'Fast, reliable OpenGraph API for generating instant link previews. Cache-optimized, developer-friendly, and ready to use.',
   keywords: 'opengraph, link preview, api, metadata, og tags, preview generation, link metadata, social cards',
-  ogImage: 'https://lh3.googleusercontent.com/pw/AP1GczOgaNwJrHF8_Tq-MQ9qk0yXdmlJaaHCyVIwnlLJ_PnrawStenx-CvIbZpqtGmmel5aZ29UjpDPHSFOvLCKRkbH6xDo6i3a7Fca7g9wBoeC93I3cVT4oM44vksJs7OdnECH7GabTpZAOW9dmQQPfKpY=w1200-h630-s-no?authuser=0',
+  ogImage: 'https://powerpreview.netlify.app/og-image.png',
   themeColor: '#843dff',
   siteUrl: 'https://powerpreview.netlify.app',
 };

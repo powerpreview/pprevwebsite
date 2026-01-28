@@ -1,25 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { PageTransition } from '@/app/components/PageTransition';
+import { SEO } from '@/app/components/SEO';
 
 export default function Status() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
-  useEffect(() => {
-    // Check if iframe was already loaded in this session
-    const wasLoaded = sessionStorage.getItem('status-iframe-loaded') === 'true';
-    setIframeLoaded(wasLoaded);
-  }, []);
-
-  const handleLoadIframe = () => {
-    setIframeLoaded(true);
-    sessionStorage.setItem('status-iframe-loaded', 'true');
-  };
-
   return (
     <PageTransition>
       <div className="pulse-site">
+        <SEO 
+          title="API Status"
+          description="Check PowerPreview API status, uptime, and service health. Real-time monitoring and incident history."
+          canonical="/status"
+        />
         <header className="navbar">
           <div className="container">
             <div className="nav-content">

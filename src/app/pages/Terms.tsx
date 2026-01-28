@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { PageTransition } from '@/app/components/PageTransition';
+import { SEO } from '@/app/components/SEO';
 
 export default function Terms() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -8,6 +9,11 @@ export default function Terms() {
   return (
     <PageTransition>
     <div className="pulse-site">
+      <SEO 
+        title="Terms of Service"
+        description="PowerPreview Terms of Service. Review the terms and conditions for using our link preview API service."
+        canonical="/terms"
+      />
       <header className="navbar">
         <div className="container">
           <div className="nav-content">

@@ -1,14 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { ChevronDown } from 'lucide-react';
 import { PageTransition } from '@/app/components/PageTransition';
+import { SEO } from '@/app/components/SEO';
 
-interface FAQItem {
-  question: string;
-  answer: string | JSX.Element;
-}
-
-const faqs: FAQItem[] = [
+const faqs = [
   {
     question: "Come funziona la cache dell'API?",
     answer: "PowerPreview utilizza una cache edge distribuita su Cloudflare. Quando richiedi un URL, l'API controlla prima se i metadata sono già in cache. Se sì (Cache HIT), la risposta è istantanea e costa meno. Se no (Cache MISS), l'API fa scraping dell'URL e salva il risultato in cache per 24 ore."
@@ -113,6 +108,11 @@ export default function Contact() {
   return (
     <PageTransition>
     <div className="pulse-site">
+      <SEO 
+        title="Contact Us"
+        description="Have questions about PowerPreview API? Contact our team for support, integration help, or enterprise inquiries. We're here to help."
+        canonical="/contact"
+      />
       <header className="navbar">
         <div className="container">
           <div className="nav-content">
@@ -165,7 +165,6 @@ export default function Contact() {
                     onClick={() => toggleFAQ(index)}
                   >
                     <span>{faq.question}</span>
-                    <ChevronDown className="faq-icon" />
                   </button>
                   <div className="faq-answer">
                     <div className="faq-answer-content">

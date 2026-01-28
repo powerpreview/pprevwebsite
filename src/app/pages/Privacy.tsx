@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { PageTransition } from '@/app/components/PageTransition';
+import { SEO } from '@/app/components/SEO';
 
 export default function Privacy() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -8,6 +9,11 @@ export default function Privacy() {
   return (
     <PageTransition>
     <div className="pulse-site">
+      <SEO 
+        title="Privacy Policy"
+        description="PowerPreview Privacy Policy. Learn how we collect, use, and protect your data when using our link preview API service."
+        canonical="/privacy"
+      />
       <header className="navbar">
         <div className="container">
           <div className="nav-content">

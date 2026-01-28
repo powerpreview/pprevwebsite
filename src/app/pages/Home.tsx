@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { PageTransition } from '@/app/components/PageTransition';
+import { SEO } from '@/app/components/SEO';
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -11,7 +12,7 @@ export default function Home() {
 
   const heroBgUrl = 'https://lh3.googleusercontent.com/pw/AP1GczODD1CxkATyp0R-AcftWRX4NlGM3JBkBRT7TNuYb_LONK3oYZ9q1l-6SOOe-Lov5St-bs3BaCFpsIPFco46CFFDRA2qqx_oh-JBgJb9HheR_U0hEBGHGatPZiAnEqQ7u9x_DyW4MOuy0q2Nui1wCKs=w1377-h918-s-no?authuser=0';
 
-  const curlCode = `curl -X GET 'https://api.pulsepreview.io/v1/preview?url=https://github.com' \\
+  const curlCode = `curl -X GET 'https://api.pulsepreview.io/v1/preview?url=https://github.com' \\\\
   -H 'Authorization: Bearer YOUR_API_KEY'`;
 
   const jsonCode = `{
@@ -61,6 +62,7 @@ export default function Home() {
   return (
     <PageTransition>
     <div className="pulse-site">
+      <SEO canonical="/" />
       <header className="navbar">
         <div className="container">
           <div className="nav-content">

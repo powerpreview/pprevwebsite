@@ -1,23 +1,23 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { PageTransition } from '@/app/components/PageTransition';
-import heroBg from 'figma:asset/810a21f5d0ca0691e159dc9ab993774bec79d03c.png';
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [copiedCurl, setCopiedCurl] = useState(false);
-  const [copiedJson, setCopiedJson] = useState(false);
-  const [urlInput, setUrlInput] = useState('https://github.com/vercel/next.js');
+  const [demoUrl, setDemoUrl] = useState('https://github.com');
   const [previewData, setPreviewData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
 
-  const curlCode = `curl -X GET 'https://api.pulsepreview.io/v1/preview?url=https://github.com/vercel/next.js' \\
+  const heroBgUrl = 'https://lh3.googleusercontent.com/pw/AP1GczODD1CxkATyp0R-AcftWRX4NlGM3JBkBRT7TNuYb_LONK3oYZ9q1l-6SOOe-Lov5St-bs3BaCFpsIPFco46CFFDRA2qqx_oh-JBgJb9HheR_U0hEBGHGatPZiAnEqQ7u9x_DyW4MOuy0q2Nui1wCKs=w1377-h918-s-no?authuser=0';
+
+  const curlCode = `curl -X GET 'https://api.pulsepreview.io/v1/preview?url=https://github.com' \\
   -H 'Authorization: Bearer YOUR_API_KEY'`;
 
   const jsonCode = `{
-  "url": "https://github.com/vercel/next.js",
-  "title": "The React Framework for the Web",
-  "description": "Used by some of the world's largest companies, Next.js enables you to create high-quality web applications.",
+  "url": "https://github.com",
+  "title": "GitHub: Where the world builds software",
+  "description": "GitHub is where over 100 million developers shape the future of software, together.",
   "image": "https://opengraph.githubassets.com/...",
   "favicon": "https://github.githubassets.com/favicons/favicon.svg",
   "site_name": "GitHub",
@@ -29,28 +29,23 @@ export default function Home() {
   const handleCopy = async (text: string, type: 'curl' | 'json') => {
     try {
       await navigator.clipboard.writeText(text);
-      if (type === 'curl') {
-        setCopiedCurl(true);
-        setTimeout(() => setCopiedCurl(false), 2000);
-      } else {
-        setCopiedJson(true);
-        setTimeout(() => setCopiedJson(false), 2000);
-      }
+      setCopied(type);
+      setTimeout(() => setCopied(null), 2000);
     } catch (err) {
       console.error('Failed to copy:', err);
     }
   };
 
   const handlePreview = async () => {
-    setIsLoading(true);
+    setLoading(true);
     
     // Simulazione fetch per demo (sostituire con vera API dopo)
     setTimeout(() => {
       const mockData = {
-        url: urlInput,
-        title: "The React Framework for the Web",
-        description: "Used by some of the world's largest companies, Next.js enables you to create high-quality web applications.",
-        image: "https://opengraph.githubassets.com/1/vercel/next.js",
+        url: demoUrl,
+        title: "GitHub: Where the world builds software",
+        description: "GitHub is where over 100 million developers shape the future of software, together.",
+        image: "https://opengraph.githubassets.com/1/github",
         favicon: "https://github.githubassets.com/favicons/favicon.svg",
         site_name: "GitHub",
         type: "website",
@@ -59,7 +54,7 @@ export default function Home() {
       };
       
       setPreviewData(mockData);
-      setIsLoading(false);
+      setLoading(false);
     }, 800);
   };
 
@@ -98,7 +93,7 @@ export default function Home() {
       <main>
         <section 
           className="hero-section" 
-          style={{ backgroundImage: `url(${heroBg})` }}
+          style={{ backgroundImage: `url(${heroBgUrl})` }}
         >
           <div className="hero-overlay"></div>
           <div className="container">
@@ -145,16 +140,16 @@ export default function Home() {
                 <input 
                   type="url" 
                   className="demo-input" 
-                  placeholder="https://github.com/vercel/next.js"
-                  value={urlInput}
-                  onChange={(e) => setUrlInput(e.target.value)}
+                  placeholder="https://github.com"
+                  value={demoUrl}
+                  onChange={(e) => setDemoUrl(e.target.value)}
                 />
                 <button 
                   className="btn btn-primary"
                   onClick={handlePreview}
-                  disabled={isLoading}
+                  disabled={loading}
                 >
-                  {isLoading ? 'Loading...' : 'Preview'}
+                  {loading ? 'Loading...' : 'Preview'}
                 </button>
               </div>
 
@@ -163,10 +158,10 @@ export default function Home() {
                   <div className="code-block-header">
                     <span className="code-block-title">cURL Example</span>
                     <button 
-                      className={`btn-copy ${copiedCurl ? 'copied' : ''}`}
+                      className={`btn-copy ${copied === 'curl' ? 'copied' : ''}`}
                       onClick={() => handleCopy(curlCode, 'curl')}
                     >
-                      {copiedCurl ? 'Copied!' : 'Copy'}
+                      {copied === 'curl' ? 'Copied!' : 'Copy'}
                     </button>
                   </div>
                   <pre className="code-content"><code>{curlCode}</code></pre>
@@ -176,10 +171,10 @@ export default function Home() {
                   <div className="code-block-header">
                     <span className="code-block-title">JSON Response</span>
                     <button 
-                      className={`btn-copy ${copiedJson ? 'copied' : ''}`}
+                      className={`btn-copy ${copied === 'json' ? 'copied' : ''}`}
                       onClick={() => handleCopy(jsonCode, 'json')}
                     >
-                      {copiedJson ? 'Copied!' : 'Copy'}
+                      {copied === 'json' ? 'Copied!' : 'Copy'}
                     </button>
                   </div>
                   <pre className="code-content"><code>{previewData ? JSON.stringify(previewData, null, 2) : jsonCode}</code></pre>

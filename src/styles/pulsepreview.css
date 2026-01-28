@@ -2105,6 +2105,16 @@ body {
   text-decoration: underline;
 }
 
+.pulse-site .form-note-success {
+  color: #10b981 !important;
+  font-weight: 600;
+}
+
+.pulse-site .form-note-error {
+  color: #ef4444 !important;
+  font-weight: 600;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .pulse-site .contact-wrapper {

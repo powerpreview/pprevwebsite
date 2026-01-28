@@ -68,9 +68,37 @@ const faqs: FAQItem[] = [
 export default function Contact() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [formStatus, setFormStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus('loading');
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString(),
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        form.reset();
+        // Reset success message after 5 seconds
+        setTimeout(() => setFormStatus('idle'), 5000);
+      } else {
+        setFormStatus('error');
+      }
+    } catch (error) {
+      setFormStatus('error');
+    }
   };
 
   return (
@@ -172,6 +200,7 @@ export default function Contact() {
                   data-netlify="true"
                   netlify-honeypot="bot-field"
                   className="contact-form"
+                  onSubmit={handleSubmit}
                 >
                   {/* Hidden field for Netlify Forms */}
                   <input type="hidden" name="form-name" value="contact" />
@@ -241,6 +270,22 @@ export default function Contact() {
                   <button type="submit" className="btn btn-primary btn-large">
                     Invia messaggio
                   </button>
+
+                  {formStatus === 'loading' && (
+                    <p className="form-note">
+                      Invio in corso...
+                    </p>
+                  )}
+                  {formStatus === 'success' && (
+                    <p className="form-note form-note-success">
+                      Messaggio inviato con successo!
+                    </p>
+                  )}
+                  {formStatus === 'error' && (
+                    <p className="form-note form-note-error">
+                      Si è verificato un errore. Riprova più tardi.
+                    </p>
+                  )}
 
                   <p className="form-note">
                     Inviando questo form accetti i nostri{' '}

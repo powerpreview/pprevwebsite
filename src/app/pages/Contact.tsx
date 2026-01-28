@@ -81,11 +81,19 @@ export default function Contact() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    // Convert FormData to JSON object
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+    };
+
     try {
-      const response = await fetch('/', {
+      const response = await fetch('/.netlify/functions/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {
@@ -97,6 +105,7 @@ export default function Contact() {
         setFormStatus('error');
       }
     } catch (error) {
+      console.error('Form submission error:', error);
       setFormStatus('error');
     }
   };
@@ -194,36 +203,10 @@ export default function Contact() {
               </div>
 
               <div className="contact-form-wrapper">
-                {/* Hidden form for Netlify detection */}
                 <form 
-                  name="contact" 
-                  netlify="true" 
-                  netlify-honeypot="bot-field"
-                  hidden
-                >
-                  <input type="text" name="name" />
-                  <input type="email" name="email" />
-                  <input type="text" name="subject" />
-                  <textarea name="message"></textarea>
-                </form>
-
-                {/* Actual visible form */}
-                <form 
-                  name="contact" 
-                  method="POST" 
                   onSubmit={handleSubmit}
                   className="contact-form"
                 >
-                  {/* Hidden field for Netlify Forms */}
-                  <input type="hidden" name="form-name" value="contact" />
-                  
-                  {/* Honeypot field to prevent spam */}
-                  <p style={{ display: 'none' }}>
-                    <label>
-                      Don't fill this out if you're human: <input name="bot-field" />
-                    </label>
-                  </p>
-
                   <div className="form-group">
                     <label htmlFor="name" className="form-label">
                       Nome <span className="form-required">*</span>

@@ -1,4 +1,5 @@
 import type { Handler, HandlerEvent } from '@netlify/functions';
+import { Resend } from 'resend';
 
 const handler: Handler = async (event: HandlerEvent) => {
   // Only allow POST
@@ -22,7 +23,7 @@ const handler: Handler = async (event: HandlerEvent) => {
       };
     }
 
-    // Log the form submission (visible in Netlify Function logs)
+    // Log the form submission
     console.log('Contact form submission:', {
       name,
       email,
@@ -31,14 +32,39 @@ const handler: Handler = async (event: HandlerEvent) => {
       timestamp: new Date().toISOString(),
     });
 
-    // Here you can:
-    // 1. Send email via SendGrid/Mailgun/etc
-    // 2. Save to database
-    // 3. Send to Slack/Discord webhook
-    // 4. Or just log it (Netlify saves function logs)
+    // Send email via Resend
+    const resendApiKey = process.env.RESEND_API_KEY;
+    
+    if (resendApiKey) {
+      try {
+        const resend = new Resend(resendApiKey);
+        
+        await resend.emails.send({
+          from: 'PowerPreview Contact <onboarding@resend.dev>',
+          to: 'dev.powerpreview@gmail.com',
+          replyTo: email,
+          subject: `[PowerPreview Contact] ${subject || 'Nuovo messaggio'}`,
+          html: `
+            <h2>Nuovo messaggio dal form di contatto</h2>
+            <p><strong>Nome:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Oggetto:</strong> ${subject || 'N/A'}</p>
+            <p><strong>Messaggio:</strong></p>
+            <p>${message.replace(/\n/g, '<br>')}</p>
+            <hr>
+            <p style="color: #666; font-size: 12px;">Ricevuto il ${new Date().toLocaleString('it-IT')}</p>
+          `,
+        });
 
-    // For now, we just return success
-    // Netlify Function logs are visible in dashboard
+        console.log('Email sent successfully via Resend');
+      } catch (emailError) {
+        console.error('Failed to send email via Resend:', emailError);
+        // Don't fail the request if email fails, just log it
+      }
+    } else {
+      console.warn('RESEND_API_KEY not configured, email not sent');
+    }
+
     return {
       statusCode: 200,
       headers: {

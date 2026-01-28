@@ -194,13 +194,25 @@ export default function Contact() {
               </div>
 
               <div className="contact-form-wrapper">
+                {/* Hidden form for Netlify detection */}
+                <form 
+                  name="contact" 
+                  netlify="true" 
+                  netlify-honeypot="bot-field"
+                  hidden
+                >
+                  <input type="text" name="name" />
+                  <input type="email" name="email" />
+                  <input type="text" name="subject" />
+                  <textarea name="message"></textarea>
+                </form>
+
+                {/* Actual visible form */}
                 <form 
                   name="contact" 
                   method="POST" 
-                  data-netlify="true"
-                  netlify-honeypot="bot-field"
-                  className="contact-form"
                   onSubmit={handleSubmit}
+                  className="contact-form"
                 >
                   {/* Hidden field for Netlify Forms */}
                   <input type="hidden" name="form-name" value="contact" />

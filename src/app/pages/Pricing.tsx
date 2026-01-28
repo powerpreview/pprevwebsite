@@ -23,6 +23,7 @@ export default function Pricing() {
                   <Link to="/docs" className="nav-link">Docs</Link>
                   <Link to="/pricing" className="nav-link active">Pricing</Link>
                   <Link to="/status" className="nav-link">Status</Link>
+                  <Link to="/contact" className="nav-link">Contact</Link>
                 </div>
                 <div className="nav-actions">
                   <a href="#" className="btn btn-ghost">Dashboard</a>
@@ -234,8 +235,8 @@ export default function Pricing() {
                 <Link to="/docs">Documentation</Link>
                 <Link to="/pricing">Pricing</Link>
                 <Link to="/status">Status</Link>
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
+                <Link to="/privacy">Privacy</Link>
+                <Link to="/terms">Terms</Link>
               </div>
             </div>
           </div>

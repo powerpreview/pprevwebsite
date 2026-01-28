@@ -69,6 +69,7 @@ export default function Docs() {
                 <Link to="/docs" className="nav-link active">Docs</Link>
                 <Link to="/pricing" className="nav-link">Pricing</Link>
                 <Link to="/status" className="nav-link">Status</Link>
+                <Link to="/contact" className="nav-link">Contact</Link>
               </div>
               <div className="nav-actions">
                 <a href="#" className="btn btn-ghost">Dashboard</a>
@@ -533,7 +534,8 @@ export default function Docs() {
               <Link to="/status">Status</Link>
               <Link to="/docs">Docs</Link>
               <Link to="/pricing">Pricing</Link>
-              <a href="#">GitHub</a>
+              <Link to="/privacy">Privacy</Link>
+              <Link to="/terms">Terms</Link>
             </div>
           </div>
         </div>

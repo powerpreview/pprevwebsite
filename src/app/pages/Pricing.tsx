@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { PageTransition } from '@/app/components/PageTransition';
-import { SEO } from '@/app/components/SEO';
 import { Check } from 'lucide-react';
 
 export default function Pricing() {
@@ -10,11 +9,6 @@ export default function Pricing() {
   return (
     <PageTransition>
     <div className="pulse-site">
-      <SEO 
-        title="Pricing"
-        description="Transparent pricing for PowerPreview API. Pay only for what you use with separate rates for Cache HIT and MISS requests. Free tier available."
-        canonical="/pricing"
-      />
       <header className="navbar">
         <div className="container">
           <div className="nav-content">

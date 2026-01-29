@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { PageTransition } from '@/app/components/PageTransition';
-import { SEO } from '@/app/components/SEO';
 
 export default function Docs() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -56,11 +55,6 @@ export default function Docs() {
   return (
     <PageTransition>
     <div className="pulse-site">
-      <SEO 
-        title="Documentation"
-        description="Complete API documentation for PowerPreview. Learn how to integrate instant link previews with OpenGraph metadata into your application."
-        canonical="/docs"
-      />
       <header className="navbar">
         <div className="container">
           <div className="nav-content">

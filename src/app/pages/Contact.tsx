@@ -1,62 +1,35 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { PageTransition } from '@/app/components/PageTransition';
-import { SEO } from '@/app/components/SEO';
 
 const faqs = [
   {
-    question: "Come funziona la cache dell'API?",
-    answer: "PowerPreview utilizza una cache edge distribuita su Cloudflare. Quando richiedi un URL, l'API controlla prima se i metadata sono già in cache. Se sì (Cache HIT), la risposta è istantanea e costa meno. Se no (Cache MISS), l'API fa scraping dell'URL e salva il risultato in cache per 24 ore."
+    question: 'Come funziona la cache?',
+    answer: 'PowerPreview utilizza una cache edge distribuita globalmente. Quando richiedi una preview, se l\'URL è già in cache ricevi una risposta istantanea (Cache HIT). Altrimenti, effettuiamo il fetch reale e salviamo il risultato in cache per 6-24 ore (Cache MISS).'
   },
   {
-    question: "Qual è la differenza tra Cache HIT e MISS nel pricing?",
-    answer: (
-      <>
-        <strong>Cache HIT:</strong> Il metadata esiste già in cache, risposta istantanea (~50ms), costa 1 credito.<br />
-        <strong>Cache MISS:</strong> L'API deve fare scraping dell'URL, risposta più lenta (~500-2000ms), costa 2 crediti.<br />
-        I piani gratuiti e starter includono un mix di entrambi. I piani business ottimizzano automaticamente la cache.
-      </>
-    )
+    question: 'Quali metadata supportate?',
+    answer: 'Supportiamo OpenGraph tags (og:title, og:description, og:image, ecc.), Twitter Cards, e meta tags HTML standard. Il parsing è automatico e restituisce sempre gli stessi campi in formato JSON consistente.'
   },
   {
-    question: "Posso utilizzare PowerPreview per scopi commerciali?",
-    answer: "Sì! Tutti i piani (incluso Free) possono essere utilizzati per progetti commerciali. Assicurati solo di rispettare i rate limits e i Terms of Service. Per progetti ad alto traffico, consigliamo i piani Business o Enterprise con SLA garantito."
+    question: 'Come gestite i rate limits?',
+    answer: 'I rate limits sono separati per Cache HIT e Cache MISS. Esempio nel piano Free: 10 MISS/minuto, 100 HIT/minuto. Superate il limite riceverete un errore 429. I limiti si resettano ogni minuto.'
   },
   {
-    question: "Quali metadata vengono estratti dall'API?",
-    answer: "PowerPreview estrae OpenGraph tags (og:title, og:description, og:image), Twitter Cards (twitter:card, twitter:title), e meta tags standard (title, description). Supportiamo anche favicon, author, publish date, e altre proprietà quando disponibili."
+    question: 'Posso usare PowerPreview per siti che richiedono autenticazione?',
+    answer: 'No. PowerPreview può accedere solo a contenuti pubblicamente disponibili senza autenticazione. Per contenuti privati, considera di implementare un sistema di caching interno.'
   },
   {
-    question: "Come gestite i siti protetti da bot detection?",
-    answer: "Utilizziamo browser headless (Playwright) con user-agent realistici e tecniche anti-detection per bypassare protezioni comuni. Tuttavia, alcuni siti molto protetti potrebbero bloccare le richieste. In questi casi, restituiamo metadata parziali o un errore 403."
+    question: 'È possibile forzare il refresh della cache?',
+    answer: 'Sì, nei piani Pro ed Enterprise puoi forzare un refresh tramite dashboard o API endpoint dedicato. Il piano Free non supporta cache purging manuale.'
   },
   {
-    question: "Posso personalizzare il TTL della cache?",
-    answer: "Sì, nei piani Business ed Enterprise puoi configurare il TTL (Time To Live) della cache da 1 ora a 7 giorni tramite l'header `X-Cache-TTL`. Il piano Free usa un TTL fisso di 24 ore."
+    question: 'Qual è la latenza media?',
+    answer: 'Cache HIT: <5ms (edge cache). Cache MISS: 150-500ms (dipende dalla velocità del sito target). La maggior parte delle richieste dopo la prima è Cache HIT.'
   },
   {
-    question: "Offrite un piano gratuito per sempre?",
-    answer: "Sì! Il piano Free include 10.000 richieste/mese (5.000 HIT + 5.000 MISS) e 100 req/min senza limiti di tempo. È perfetto per progetti personali, portfolio, e prototipi. Per uso production consigliamo un upgrade per avere rate limits più alti e supporto prioritario."
-  },
-  {
-    question: "Come funziona il supporto tecnico?",
-    answer: "Free: community support via Discord. Starter/Business: email support con risposta entro 24-48h. Enterprise: support prioritario con SLA, Slack dedicato, e account manager. Tutti i piani hanno accesso alla documentazione completa."
-  },
-  {
-    question: "Posso cancellare il mio account in qualsiasi momento?",
-    answer: "Assolutamente sì. Puoi cancellare il tuo account dalla dashboard in qualsiasi momento. I dati saranno eliminati entro 30 giorni secondo la nostra Privacy Policy. Non offriamo rimborsi per servizi già erogati."
-  },
-  {
-    question: "L'API è compatibile con CORS?",
-    answer: "Sì! L'API supporta CORS e può essere chiamata direttamente da browser frontend (React, Vue, Next.js, ecc.). Gli header CORS sono configurati per accettare richieste da qualsiasi origine con la tua API key valida."
-  },
-  {
-    question: "Cosa succede se supero i rate limits?",
-    answer: "Se superi i rate limits (es. 100 req/min o 10.000 req/mese), riceverai un errore 429 (Too Many Requests). Il rate limit si resetta automaticamente dopo 1 minuto (per req/min) o all'inizio del mese successivo. Puoi fare upgrade in qualsiasi momento per limiti più alti."
-  },
-  {
-    question: "Offrite webhook per notifiche?",
-    answer: "Sì, nei piani Business ed Enterprise puoi configurare webhook per ricevere notifiche quando la cache viene aggiornata, quando un URL fallisce lo scraping, o per eventi custom. Supportiamo anche webhook per monitoraggio real-time."
+    question: 'Supportate webhooks per notifiche?',
+    answer: 'Non ancora, ma è una feature pianificata per Q2 2026. Sarai in grado di ricevere notifiche per eventi come rate limit exceeded, cache refresh, o downtime.'
   }
 ];
 
@@ -108,11 +81,6 @@ export default function Contact() {
   return (
     <PageTransition>
     <div className="pulse-site">
-      <SEO 
-        title="Contact Us"
-        description="Have questions about PowerPreview API? Contact our team for support, integration help, or enterprise inquiries. We're here to help."
-        canonical="/contact"
-      />
       <header className="navbar">
         <div className="container">
           <div className="nav-content">

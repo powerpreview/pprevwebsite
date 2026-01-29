@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { PageTransition } from '@/app/components/PageTransition';
-import { SEO } from '@/app/components/SEO';
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -62,7 +61,6 @@ export default function Home() {
   return (
     <PageTransition>
     <div className="pulse-site">
-      <SEO canonical="/" />
       <header className="navbar">
         <div className="container">
           <div className="nav-content">

@@ -1,20 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { PageTransition } from '@/app/components/PageTransition';
-import { SEO } from '@/app/components/SEO';
 
 export default function Status() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
+  const handleLoadIframe = () => {
+    setIframeLoaded(true);
+  };
+
   return (
     <PageTransition>
       <div className="pulse-site">
-        <SEO 
-          title="API Status"
-          description="Check PowerPreview API status, uptime, and service health. Real-time monitoring and incident history."
-          canonical="/status"
-        />
         <header className="navbar">
           <div className="container">
             <div className="nav-content">
